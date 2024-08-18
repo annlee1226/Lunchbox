@@ -4,20 +4,74 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="text-center my-4">Food</h1>
-    <p>Users and their products</p>
-    <ul class="list-group list-group-flush" id="users">
-        {% for user in all_users %}
-        <li class="list-group-item">
-            <strong>{{ user.name }}</strong>
-            <ul class="list-group list-group-flush">
-                {% for product in user.products %}
-                <li class="list-group-item">{{ product.label }}</li>
-                {% endfor %}
-            </ul>
-        </li>
-        {% endfor %}
-    </ul>
+    <h1 class="text-center my-4">Available Food Items</h1>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form id="payment-form">
+                <div class="row justify-content-center">
+                <div class="form-group">
+                    <label for="food_items">Select Food Items</label>
+                    <select id="food_items" class="form-control" multiple style="height: 200px; width: 800px;">
+                        {% for item in food_items %}
+                        <option value="{{ item.food }}" data-price="{{ item.price }}">
+                            {{ item.food }} - ${{ item.price }} - {{ item.description }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</small>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="total_amount">Total Amount (USD)</label>
+                    <input type="number" id="total_amount" class="form-control" value="0" readonly>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <button type="button" id="checkout-button" class="btn btn-primary">Pay Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('food_items').addEventListener('change', function() {
+            const selectedOptions = Array.from(this.selectedOptions);
+            let totalAmount = 0;
+            selectedOptions.forEach(option => {
+                totalAmount += parseFloat(option.getAttribute('data-price'));
+            });
+            document.getElementById('total_amount').value = totalAmount.toFixed(2);
+        });
+        
+
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            const selectedOptions = Array.from(document.getElementById('food_items').selectedOptions);
+            const foodItems = selectedOptions.map(option => option.value);
+            const totalAmount = document.getElementById('total_amount').value;
+
+            fetch('/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    food_items: foodItems,
+                    amount: totalAmount
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url;
+                } else {
+                    console.error(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </div>
 {% endblock %}
-
