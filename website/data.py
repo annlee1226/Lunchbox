@@ -9,7 +9,7 @@ from sqlalchemy import Enum as SqlEnum
 class UserStatusEnum(enum.Enum):
     ORDER_RECEIVED = "order received"
     ORDER_PREPARING = "order preparing"
-    ORDER_MADE = "order made"
+    ORDER_DELIVERED = "order delivered"
 
 
 class Product(db.Model):
@@ -18,6 +18,7 @@ class Product(db.Model):
     status = db.Column(SqlEnum(UserStatusEnum), default=UserStatusEnum.ORDER_PREPARING, nullable=False)
     price = db.Column(db.Float)    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
+    restaurant = db.Column(db.String(150)) 
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
