@@ -1,1 +1,5 @@
 .env*.local
+instance/
+myproject/
+__pycache__/
+
