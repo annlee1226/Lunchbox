@@ -10,4 +10,5 @@ pages = Blueprint('pages', __name__)
 @pages.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template("home.html", user=current_user)
+    all_users = User.query.all() 
+    return render_template("home.html", user=current_user, all_users=all_users)

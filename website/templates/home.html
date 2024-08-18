@@ -5,5 +5,19 @@
 {% block content %}
 <div class="container">
     <h1 class="text-center my-4">Food</h1>
+    <p>Users and their products</p>
+    <ul class="list-group list-group-flush" id="users">
+        {% for user in all_users %}
+        <li class="list-group-item">
+            <strong>{{ user.name }}</strong>
+            <ul class="list-group list-group-flush">
+                {% for product in user.products %}
+                <li class="list-group-item">{{ product.label }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
+

@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 import os
 from flask_login import LoginManager
+from flask_pymongo import PyMongo
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -10,7 +11,7 @@ DB_NAME = "database.db"
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY']  =  os.getenv('SECRET_KEY', 'default_key_if_not_set')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{DB_NAME}'
     db.init_app(app)
 
     from .auth import auth
