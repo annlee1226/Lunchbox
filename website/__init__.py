@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 import os
 from flask_login import LoginManager
-from flask_pymongo import PyMongo
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
