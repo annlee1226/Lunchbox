@@ -4,7 +4,5 @@ flask-login
 gunicorn
 requests
 stripe
-json
-os
 setuptools
 wheel
