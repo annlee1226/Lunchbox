@@ -1,5 +1,6 @@
 flask
 Flask-SQLAlchemy
 flask-login
+gunicorn
 # Flask-PyMongo 
 # Flask-WTF
