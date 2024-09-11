@@ -6,9 +6,7 @@ import json
 import requests
 import os
 import stripe
-from dotenv import load_dotenv
 
-load_dotenv()
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 stripe.api_key = STRIPE_SECRET_KEY
 

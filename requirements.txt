@@ -4,7 +4,6 @@ flask-login
 gunicorn
 requests
 stripe
-dotenv
 json
 os
 setuptools
