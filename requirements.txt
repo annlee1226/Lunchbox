@@ -7,3 +7,5 @@ stripe
 dotenv
 json
 os
+setuptools
+wheel
